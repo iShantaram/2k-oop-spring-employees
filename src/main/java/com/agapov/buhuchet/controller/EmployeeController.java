@@ -4,7 +4,7 @@ import com.agapov.buhuchet.domain.Employee;
 import com.agapov.buhuchet.service.EmployeeService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Collection;
 
 @RestController
 @RequestMapping(path = "/employee")
@@ -46,7 +46,7 @@ public class EmployeeController {
     }
 
     @GetMapping(path = "/list")
-    public List<Employee> employeeList() {
+    public Collection<Employee> employeeList() {
         return employeeService.dataList();
     }
 

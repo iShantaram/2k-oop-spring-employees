@@ -1,57 +1,70 @@
 package com.agapov.buhuchet.service;
 
 import com.agapov.buhuchet.domain.Employee;
-import com.agapov.buhuchet.exceptions.EmployeeAlreadyAddedException;
-import com.agapov.buhuchet.exceptions.EmployeeNotFoundException;
-import com.agapov.buhuchet.exceptions.EmployeeStorageIsFullException;
+import com.agapov.buhuchet.exceptions.*;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
-    private final int MAX_COUNT_EMPLOYEES = 5;
-    List<Employee> employees = new ArrayList<>(MAX_COUNT_EMPLOYEES);
+    private final int MAX_COUNT_EMPLOYEES = 4;
+
+    private final Map<String, Employee> employees = new HashMap<>(MAX_COUNT_EMPLOYEES);
 
     @Override
     public Employee addEmployee(String firstname, String lastname) {
-        Employee employee = new Employee(firstname, lastname);
-        if (employees.contains(employee)) {
-            throw new EmployeeAlreadyAddedException("Employee " + employee + " has already added!");
+
+        if (employees.size() >= MAX_COUNT_EMPLOYEES) {
+            throw new ArrayIsFullException("State of employees is full!");
         }
-        if (employees.size() == MAX_COUNT_EMPLOYEES) {
-            throw new EmployeeStorageIsFullException("State of employees is full!");
+
+        String key = getKey(firstname, lastname);
+
+        if (employees.containsKey(key)) {
+            throw new EmployeeAlreadyAddedException(key + " has already added!");
         }
-        employees.add(employee);
-        System.out.println("В коллекцию сотрудников добавлен: " + employee);
-        return employee;
+
+        Employee newEmployee = new Employee(firstname, lastname);
+
+//        System.out.println("Added: " + newEmployee);
+        return employees.put(key, newEmployee);
     }
 
     @Override
     public Employee removeEmployee(String firstname, String lastname) {
-        Employee employee = new Employee(firstname, lastname);
-        if (!employees.contains(employee)) {
-            throw new EmployeeNotFoundException("Can't remove employee " + employee + ". Employee not found!");
-        } else {
-            employees.remove(employee);
+
+        String key = getKey(firstname, lastname);
+
+        if (!employees.containsKey(key)) {
+            throw new EmployeeNotFoundException("Can't remove " + key + ". Employee not found!");
         }
-        System.out.println("Из коллекции сотрудников удален: " + employee);
-        return employee;
+
+//        System.out.println("Removed: " + employees.get(key));
+        return employees.remove(key);
     }
 
     @Override
     public Employee findEmployee(String firstname, String lastname) {
-        Employee employee = new Employee(firstname, lastname);
-        if (employees.contains(employee)) {
-            System.out.println("В коллекции сотрудников найден: " + employee);
-            return employees.get(employees.indexOf(employee));
+
+        String key = getKey(firstname, lastname);
+
+        if (!employees.containsKey(key)) {
+            throw new EmployeeNotFoundException(key + " not found!");
         }
-        throw new EmployeeNotFoundException("Employee " + employee + " not found!");
+
+//        System.out.println("Founded: " + key);
+        return employees.get(key);
     }
 
     @Override
-    public List<Employee> dataList() {
-        return employees;
+    public Collection<Employee> dataList() {
+        return employees.values();
+    }
+
+    public String getKey(String firstname, String lastname) {
+        return firstname + " " + lastname;
     }
 }
