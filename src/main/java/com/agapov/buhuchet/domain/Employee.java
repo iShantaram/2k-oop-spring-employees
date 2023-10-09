@@ -1,23 +1,36 @@
 package com.agapov.buhuchet.domain;
 
 import java.util.Objects;
+import java.util.Random;
 
 public class Employee {
-//    public static int counter;
 
     private final String firstname;
     private final String lastname;
-//    private int salary;
-//    private int department;
-//    private final int id;
+    private final int department;
+    private int salary;
 
-
-    public Employee(String firstname, String lastname/*, int department, int salary*/) {
+    public Employee(String firstname, String lastname) {
         this.firstname = firstname;
         this.lastname = lastname;
-//        this.department = department;
-//        this.salary = salary;
-//        id = counter++;
+        Random random = new Random();
+        this.department = random.nextInt(2) + 1;
+        this.salary = random.nextInt(50000) + 50000;
+    }
+
+    public Employee(String firstname, String lastname, Integer department) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.department = department;
+        Random random = new Random();
+        this.salary = random.nextInt(50000) + 50000;
+    }
+
+    public Employee(String firstname, String lastname, int department, int salary) {
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.department = department;
+        this.salary = salary;
     }
 
     public String getFirstname() {
@@ -27,14 +40,6 @@ public class Employee {
     public String getLastname() {
         return lastname;
     }
-
-//    public int getSalary() {
-//        return salary;
-//    }
-//
-//    public int getDepartment() {
-//        return department;
-//    }
 
     @Override
     public String toString() {
@@ -48,22 +53,20 @@ public class Employee {
         Employee employee = (Employee) o;
         return firstname.equals(employee.firstname) && lastname.equals(employee.lastname)
                 /*&& salary == employee.salary && department == employee.department && id == employee.id*/;
-    }
-
-    @Override
+    }@Override
     public int hashCode() {
-        return Objects.hash(firstname, lastname/*, salary, department, id*/);
+        return Objects.hash(firstname, lastname, salary, department);
     }
 
-//    public int getId() {
-//        return id;
-//    }
-//
-//    public void setSalary(int salary) {
-//        this.salary = salary;
-//    }
-//
-//    public void setDepartment(int department) {
-//        this.department = department;
-//    }
+    public Integer getDepartment() {
+        return department;
+    }
+
+    public int getSalary() {
+        return salary;
+    }
+
+    public void setSalary(int salary) {
+        this.salary = salary;
+    }
 }
