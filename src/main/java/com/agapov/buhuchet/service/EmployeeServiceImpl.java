@@ -2,6 +2,7 @@ package com.agapov.buhuchet.service;
 
 import com.agapov.buhuchet.domain.Employee;
 import com.agapov.buhuchet.exceptions.*;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -21,13 +22,20 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new ArrayIsFullException("State of employees is full!");
         }
 
-        String key = getKey(firstname, lastname);
+        if (!StringUtils.isAlpha(firstname) || !StringUtils.isAlpha(lastname)) {
+            throw new InputDataException("Input data (firstname or lastname) not correct!");
+        }
+
+        String formattedFirstname = StringUtils.capitalize(StringUtils.toRootLowerCase(firstname));
+        String formattedLastname = StringUtils.capitalize(StringUtils.toRootLowerCase(lastname));
+
+        String key = getKey(formattedFirstname, formattedLastname);
 
         if (employees.containsKey(key)) {
             throw new EmployeeAlreadyAddedException(key + " has already added!");
         }
 
-        Employee newEmployee = new Employee(firstname, lastname);
+        Employee newEmployee = new Employee(formattedFirstname, formattedLastname);
 
 //        System.out.println("Added: " + newEmployee);
         return employees.put(key, newEmployee);
@@ -36,7 +44,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee removeEmployee(String firstname, String lastname) {
 
-        String key = getKey(firstname, lastname);
+        if (!StringUtils.isAlpha(firstname) || !StringUtils.isAlpha(lastname)) {
+            throw new InputDataException("Input data (firstname or lastname) not correct!");
+        }
+
+        String formattedFirstname = StringUtils.capitalize(StringUtils.toRootLowerCase(firstname));
+        String formattedLastname = StringUtils.capitalize(StringUtils.toRootLowerCase(lastname));
+
+        String key = getKey(formattedFirstname, formattedLastname);
 
         if (!employees.containsKey(key)) {
             throw new EmployeeNotFoundException("Can't remove " + key + ". Employee not found!");
@@ -49,7 +64,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee findEmployee(String firstname, String lastname) {
 
-        String key = getKey(firstname, lastname);
+        if (!StringUtils.isAlpha(firstname) || !StringUtils.isAlpha(lastname)) {
+            throw new InputDataException("Input data (firstname or lastname) not correct!");
+        }
+
+        String formattedFirstname = StringUtils.capitalize(StringUtils.toRootLowerCase(firstname));
+        String formattedLastname = StringUtils.capitalize(StringUtils.toRootLowerCase(lastname));
+
+        String key = getKey(formattedFirstname, formattedLastname);
 
         if (!employees.containsKey(key)) {
             throw new EmployeeNotFoundException(key + " not found!");
