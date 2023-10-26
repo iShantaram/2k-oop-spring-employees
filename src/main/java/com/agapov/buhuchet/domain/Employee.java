@@ -8,7 +8,7 @@ public class Employee {
     private final String firstname;
     private final String lastname;
     private final int department;
-    private int salary;
+    private double salary;
 
     public Employee(String firstname, String lastname) {
         this.firstname = firstname;
@@ -26,7 +26,7 @@ public class Employee {
         this.salary = random.nextInt(50000) + 50000;
     }
 
-    public Employee(String firstname, String lastname, int department, int salary) {
+    public Employee(String firstname, String lastname, Integer department, Double salary) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.department = department;
@@ -52,7 +52,7 @@ public class Employee {
         if (o == null || getClass() != o.getClass()) return false;
         Employee employee = (Employee) o;
         return firstname.equals(employee.firstname) && lastname.equals(employee.lastname)
-                /*&& salary == employee.salary && department == employee.department && id == employee.id*/;
+                && salary == employee.salary && department == employee.department;
     }@Override
     public int hashCode() {
         return Objects.hash(firstname, lastname, salary, department);
@@ -62,7 +62,7 @@ public class Employee {
         return department;
     }
 
-    public int getSalary() {
+    public double getSalary() {
         return salary;
     }
 

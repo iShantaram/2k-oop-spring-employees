@@ -31,22 +31,22 @@ public class EmployeeController {
     }
 
     @GetMapping(path = "/add")
-    public Employee addEmployee(@RequestParam("firstname") String firstname, @RequestParam("lastname") String lastname) {
-        return employeeService.addEmployee(firstname, lastname);
+    public Employee add(@RequestParam("firstname") String firstname, @RequestParam("lastname") String lastname) {
+        return employeeService.add(firstname, lastname);
     }
 
     @GetMapping(path = "/remove")
-    public Employee removeEmployee(@RequestParam("firstname") String firstname, @RequestParam("lastname") String lastname) {
-        return employeeService.removeEmployee(firstname, lastname);
+    public Employee remove(@RequestParam("firstname") String firstname, @RequestParam("lastname") String lastname) {
+        return employeeService.remove(firstname, lastname);
     }
 
     @GetMapping(path = "/find")
-    public Employee findEmployee(@RequestParam("firstname") String firstname, @RequestParam("lastname") String lastname) {
-        return employeeService.findEmployee(firstname, lastname);
+    public Employee find(@RequestParam("firstname") String firstname, @RequestParam("lastname") String lastname) {
+        return employeeService.find(firstname, lastname);
     }
 
     @GetMapping(path = "/list")
-    public Collection<Employee> employeeList() {
+    public Collection<Employee> dataList() {
         return employeeService.dataList();
     }
 

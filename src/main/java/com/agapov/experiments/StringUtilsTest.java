@@ -1,4 +1,4 @@
-package com.agapov.buhuchet;
+package com.agapov.experiments;
 
 import org.apache.commons.lang3.StringUtils;
 

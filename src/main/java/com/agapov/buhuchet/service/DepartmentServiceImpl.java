@@ -24,7 +24,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         return employeeService.dataList()
                 .stream()
                 .filter(employee -> employee.getDepartment() == departmentId)
-                .max(Comparator.comparingInt(Employee::getSalary))
+                .max(Comparator.comparingDouble(Employee::getSalary))
                 .orElseThrow(() -> new EmployeeNotFoundException("No any employee"));
     }
 
@@ -33,7 +33,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         return employeeService.dataList()
                 .stream()
                 .filter(employee -> employee.getDepartment() == departmentId)
-                .min(Comparator.comparingInt(Employee::getSalary))
+                .min(Comparator.comparingDouble(Employee::getSalary))
                 .orElseThrow(() -> new EmployeeNotFoundException("No any employee"));
     }
 
